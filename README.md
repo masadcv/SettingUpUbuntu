@@ -146,3 +146,15 @@ set autoindent
   - Enable automatic indentation
 - Menu -> Preferences -> Font and Colours
   - Solarized Dark
+
+#### Setup fstab for automount existing drives
+
+````bash
+UUID=xxxxxxxxxxxxxxxxxxxxxx /               ext4    errors=remount-ro 0       1
+
+UUID=xxxxxxxxxxxxxxxxxxxxxx /data1          ext4    defaults        0       2
+
+UUID=xxxxxxxxxxxxxxxxxxxxxx /data2          ext4    defaults        0       2
+
+UUID=xxxxxxxxxxxxxxxxxxxxxx none            swap    sw              0       0
+````
