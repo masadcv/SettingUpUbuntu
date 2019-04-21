@@ -161,3 +161,41 @@ UUID=xxxxxxxxxxxxxxxxxxxxxx /data2          ext4    defaults        0       2
 
 UUID=xxxxxxxxxxxxxxxxxxxxxx none            swap    sw              0       0
 ````
+#### Thinkvantage button reprogram
+Specific to Thinkpad laptop
+
+Help from: https://askubuntu.com/a/561464
+
+Install:
+````bash
+sudo apt-get install xbindkeys 
+````
+
+Then run:
+````bash
+xbindkeys -k  
+````
+
+and press the thinkvantage (or any other button you wish to reprogram). The following should appear:
+
+````bash
+Press combination of keys or/and click under the window.
+You can use one of the two lines after "NoCommand"
+in $HOME/.xbindkeysrc to bind a key.
+"NoCommand"
+    m:0x0 + c:159
+    NoSymbol  
+````
+
+We will use the key id from this.
+
+Create ~/.xindkeysrc  
+````bash
+touch ~/.xindkeysrc  
+````
+
+Edit the file and add the following:
+````bash
+"bash /path/to/your/script.sh"
+m:0x0 + c:159 
+````
