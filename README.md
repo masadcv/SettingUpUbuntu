@@ -161,7 +161,26 @@ UUID=xxxxxxxxxxxxxxxxxxxxxx /data2          ext4    defaults        0       2
 
 UUID=xxxxxxxxxxxxxxxxxxxxxx none            swap    sw              0       0
 ````
-#### Thinkvantage button reprogram
+### Install VSCODE and configure for python
+````bash
+sudo apt update
+sudo apt install software-properties-common apt-transport-https wget
+
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+
+sudo apt install code
+
+````
+
+#### Setting virutalenv folders for list of interpreters for VSCODE
+- Go to settings **ctrl+,**
+- Search **virtualenv**
+- Write path **/opt/virtual_env**
+- Save
+
+### Thinkvantage button reprogram
 Specific to Thinkpad laptop
 
 Help from: https://askubuntu.com/a/561464
