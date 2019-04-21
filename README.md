@@ -148,6 +148,9 @@ set autoindent
   - Solarized Dark
 
 #### Setup fstab for automount existing drives
+````bash
+sudo vim /etc/fstab
+````
 
 ````bash
 UUID=xxxxxxxxxxxxxxxxxxxxxx /               ext4    errors=remount-ro 0       1
