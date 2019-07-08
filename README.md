@@ -218,3 +218,16 @@ Edit the file and add the following:
 "bash /path/to/your/script.sh"
 m:0x0 + c:159 
 ````
+
+### Setting up terminal to not show pop-up 'close this terminal?'
+https://askubuntu.com/a/999781
+
+In 16.04 you'll find that choice in dconf-editor. You can install it, if necessary, with
+````
+sudo apt install dconf-editor
+````
+Then go to
+````
+org -> gnome -> terminal -> legacy
+````
+and uncheck ````confirm-close````.
