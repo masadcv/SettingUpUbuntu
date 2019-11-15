@@ -231,3 +231,6 @@ Then go to
 org -> gnome -> terminal -> legacy
 ````
 and uncheck ````confirm-close````.
+
+### Setting up shortcut keys for Spotify
+https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
