@@ -234,3 +234,49 @@ and uncheck ````confirm-close````.
 
 ### Setting up shortcut keys for Spotify
 https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
+````
+#!/usr/bin/env bash
+
+# Simple Spotify Control
+# Just call ./spotify_control --help
+
+CMD="dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player"
+
+case "$1" in
+  "playpause" )
+    ${CMD}.PlayPause
+    exit $?
+  ;;
+  "next" )
+    ${CMD}.Next
+    exit $?
+  ;;
+  "previous" )
+    ${CMD}.Previous
+    exit $?
+  ;;
+  "stop" )
+    ${CMD}.Stop
+    exit $?
+  ;;
+  "play" )
+    ${CMD}.Play
+    exit $?
+  ;;
+  *)
+    echo "Usage: $0 [command]"
+    echo "  commands are: playpause, next, previous, stop, play"
+    exit 1
+  ;;
+esac
+````
+Go to settings -> keyboard -> keyboard shortcuts -> custom shortcuts
+
+Commands available:
+````
+/home/your_username/Downloads/spotify_control playpause
+/home/your_username/Downloads/spotify_control previous
+/home/your_username/Downloads/spotify_control next
+/home/your_username/Downloads/spotify_control play
+/home/your_username/Downloads/spotify_control stop
+````
