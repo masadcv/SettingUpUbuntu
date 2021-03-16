@@ -162,23 +162,38 @@ UUID=xxxxxxxxxxxxxxxxxxxxxx /data2          ext4    defaults        0       2
 UUID=xxxxxxxxxxxxxxxxxxxxxx none            swap    sw              0       0
 ````
 ### Install VSCODE and configure for python
+- Download latest debian package from: https://code.visualstudio.com/
+- Install using the dpkg as follows:
 ````bash
-sudo apt update
-sudo apt install software-properties-common apt-transport-https wget
-
-wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-
-sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-
-sudo apt install code
-
+sudo dpkg -i code_*.deb
 ````
+#### Setting virutalenv folders for list of interpreters for VSCODE
+Often on a prototyping workstation, it is helpful to use a single testing virtualenv as it speeds up setting up things.
+To make a default virtualenv accessing in all new projects, update the following field in your user settings.json
+- Go to settings **ctrl+,**
+- Open **settings.json** from top right corner file icon
+- Append json with entry
+  ```` bash
+  "python.pythonPath": "/opt/virtualenvs/venv/bin/python3"
+  ````
+- Save and reload
 
 #### Setting virutalenv folders for list of interpreters for VSCODE
 - Go to settings **ctrl+,**
 - Search **virtualenv**
 - Write path **/opt/virtual_env**
 - Save
+
+#### Useful VSCode extensions
+- python extension: ms-python.python
+- remote development: ms-vscode-remote.vscode-remote-extensionpack
+- bracket pair coloriser: coenraads.bracket-pair-colorizer-2
+
+#### Nice to have VSCode extensions
+- material icons: pkief.material-icon-theme
+- reload: natqe.reload
+- resource monitor: mutantdino.resourcemonitor
+- nvidia-smi: innerlee.nvidia-smi
 
 ### Thinkvantage button reprogram
 Specific to Thinkpad laptop
