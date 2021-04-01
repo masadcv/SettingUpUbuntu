@@ -295,3 +295,20 @@ Commands available:
 /home/your_username/Downloads/spotify_control play
 /home/your_username/Downloads/spotify_control stop
 ````
+### Setting up launcher shortcut for manually installed apps
+- Place you app folder inside /opt e.g. /opt/RealVNC/*
+- Create a .desktop file with application name e.g. RealVNC.desktop and add the following fields:
+  ````
+  [Desktop Entry]
+  Categories=Connectivity;Remote;Desktop;VPN;VNC;
+  Exec=/opt/RealVNC/VNC-Viewer-6.20.113-Linux-x64
+  GenericName=RealVNC
+  Comment=RealVNC Remote Desktop Viewer
+  Icon=/opt/RealVNC/icon.png
+  Keywords=connect;remote;desktop;vnc;vpn;
+  Name=RealVNC
+  StartupNotify=true
+  Terminal=false
+  Type=Application
+  ````
+- Place the .desktop file in folder ~/.local/share/applications/*
