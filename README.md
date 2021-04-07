@@ -324,3 +324,13 @@ On you local machine login to an ssh session using the following:
 ssh -L localhost:16006:localhost:6006 user@host 
 ````
 The above forwards port 6006 from host to port 16006 on your local machine. To access your tensorboard/application open: http://localhost:16006 on your local machine. Help from: https://stackoverflow.com/questions/37987839/how-can-i-run-tensorboard-on-a-remote-server/42445070#42445070
+
+
+### Setting up CUDA TOOLKIT
+- Goto: https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal  and download the local .run file for your OS (Ubuntu 16 in my case)
+- Add execute permission: ````chmod +x cuda_10.2.run````
+- Run with following options to install locally to your folder of choice (no drivers):
+````
+./cuda_10.2.89_440.33.01_linux.run --silent --toolkit --toolkitpath=/mnt/shared/muhammad/opt/nvidia/cuda-10.2 --defaultroot=/mnt/shared/muhammad/opt/nvidia/cuda-10.2
+````
+Help from: https://forums.developer.nvidia.com/t/failing-to-install-10-1-via-run-file-on-rhel7-as-non-root/72087/6
