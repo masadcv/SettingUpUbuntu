@@ -101,6 +101,10 @@ copy the following text
 alias venv_p3="source /opt/virtual_env/venv_p3/bin/activate"
 alias venv_p2="source /opt/virtual_env/venv_p2/bin/activate"
 alias sshm1="ssh -t mua@sshm1 'bash' "
+alias de="deactivate"
+alias ptv="python -c 'import torch; print(torch.__version__); print(torch.cuda.is_available())'"
+alias tfv="python -c 'import tensorflow as tf; print(tf.__version__); print(tf.test.is_gpu_available())'"
+
 # add anything other alias here
 
 # print out
@@ -312,3 +316,11 @@ Commands available:
   Type=Application
   ````
 - Place the .desktop file in folder ~/.local/share/applications/*
+
+### Port forwarding for applications/tensorboard from remote server to local
+On you local machine login to an ssh session using the following:
+
+````
+ssh -L localhost:16006:localhost:6006 user@host 
+````
+The above forwards port 6006 from host to port 16006 on your local machine. To access your tensorboard/application open: http://localhost:16006 on your local machine. Help from: https://stackoverflow.com/questions/37987839/how-can-i-run-tensorboard-on-a-remote-server/42445070#42445070
