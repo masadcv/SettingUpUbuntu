@@ -334,3 +334,13 @@ The above forwards port 6006 from host to port 16006 on your local machine. To a
 ./cuda_10.2.89_440.33.01_linux.run --silent --toolkit --toolkitpath=/mnt/shared/muhammad/opt/nvidia/cuda-10.2 --defaultroot=/mnt/shared/muhammad/opt/nvidia/cuda-10.2
 ````
 Help from: https://forums.developer.nvidia.com/t/failing-to-install-10-1-via-run-file-on-rhel7-as-non-root/72087/6
+
+
+# SettingUpWSL2Ubuntu
+
+### Stop bell sound in terminal
+````
+echo 'set bell-style none' >> /etc/inputrc
+````
+### WSL2 setup with Ubuntu GUI
+https://gist.github.com/tdcosta100/385636cbae39fc8cd0937139e87b1c74
