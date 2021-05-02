@@ -30,61 +30,30 @@ sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.
 systemctl restart network-manager.service
 ```
 
-#### Install Opera
-
-Help from: https://linuxconfig.org/how-to-install-opera-browser-on-ubuntu-18-04-bionic-beaver-linux
-
-```bash
-wget -qO- https://deb.opera.com/archive.key | sudo apt-key add -
-sudo add-apt-repository "deb [arch=i386,amd64] https://deb.opera.com/opera-stable/ stable non-free"
-
-sudo apt install opera-stable
-```
-
-#### Configure Opera to watch HTML5 videos
-
-Help from: https://github.com/devkicks/OperaFixUbuntu18
-
-```
-# install chrome and extra ffmpeg for chrome
-sudo apt install chromium-codecs-ffmpeg-extra chromium-browser
-
-# backup old ffmpeg in opera folder
-sudo mv /usr/lib/x86_64-linux-gnu/opera/libffmpeg.so /usr/lib/x86_64-linux-gnu/opera/libffmpeg.BACKUP
-
-# copy over from chrome
-sudo cp /usr/lib/chromium-browser/libffmpeg.so /usr/lib/x86_64-linux-gnu/opera/.
-
-# change to executable
-sudo chmod +x /usr/lib/x86_64-linux-gnu/opera/libffmpeg.so
-```
-
 #### Other settings
-
-- **Configure adblocker and remove allowed sites**
-- **Remove extra bloatware sites from speed dial**
 - **Settings->Dock->Icon Size --> 24**
 
 #### Install Useful packages, Python and Virtualenv
 
 ```bash
-sudo apt install python-dev python-pip python3-dev python3-pip virtualenv vim-gnome tmux gedit-plugins
+sudo apt install python-dev python-pip python3-dev python3-pip virtualenv vim-gnome tmux gedit-plugins git gcc g++
 ```
 
-##### Setting up virtualenv with TF cpu
+##### Setting up Virtualenv with useful packages
 
 ``` bash
 mkdir /opt/virtual_env
-virtualenv /opt/virtual_env/venv_p2
-virtualenv -p python3 /opt/virtual_env/venv_p3
+# normal venv
+virtualenv -p python3 /opt/virtualenvs/venv
+# developmental venv
+virtualenv -p python3 /opt/virtualenvs/dvenv
 
-source /opt/virtual_env/venv_p2/bin/activate
-pip install tensorflow
+source /opt/virtualenvs/venv/bin/activate
+pip install monai torch torchvision torchaudio tensorflow-gpu
 deactivate
 
-source /opt/virtual_env/venv_p3/bin/activate
-pip install tensorflow
-pip3 install spyder
+source /opt/virtualenvs/dvenv/bin/activate
+pip install torch torchvision torchaudio tensorflow-gpu
 deactivate
 ```
 
@@ -98,24 +67,83 @@ copy the following text
 
 ```bash
 # ~/.bash_aliases
-alias venv_p3="source /opt/virtual_env/venv_p3/bin/activate"
-alias venv_p2="source /opt/virtual_env/venv_p2/bin/activate"
-alias sshm1="ssh -t mua@sshm1 'bash' "
-alias de="deactivate"
-alias ptv="python -c 'import torch; print(torch.__version__); print(torch.cuda.is_available())'"
-alias tfv="python -c 'import tensorflow as tf; print(tf.__version__); print(tf.test.is_gpu_available())'"
+echo '---------------------------------'
+echo 'Helpful aliases:'
+echo 'venv : default python3 virtualenv'
+echo 'dvenv: default develop python3 virtualenv'
+echo 'de   : deactivate venv'
+echo 'ptv  : check PyTorch version + GPU support'
+echo 'tfv  : check Tensorflow version + GPU support'
+echo 'monv : check MONAI version'
+echo '---------------------------------'
+echo 
 
-# add anything other alias here
+# generic helper aliases for deep learning and pythons stuff
+alias venv='source /opt/virtualenvs/venv/bin/activate'
+alias dvenv='source /opt/virtualenvs/dvenv/bin/activate'
+alias de='deactivate'
+alias ptv="python -c \"import torch; print('PyTorch Version: {}'.format(torch.__version__)); print('GPU: {}'.format(torch.cuda.is_available()))\""
+alias tfv="python -c \"import tensorflow; print('Tensorflow Version: {}'.format(tensorflow.__version__)); print('GPU: {}'.format(len(tensorflow.config.list_physical_devices('GPU'))>0))\""
+alias monv="python -c \"import monai; monai.config.print_config(); monai.config.print_gpu_info()\""
 
-# print out
-echo "###########################"
-echo "Setting up aliases"
-echo "venv_p3: Python3 virtualenv"
-echo "venv_p2: Python2 virtualenv"
-echo "sshmx: ssh to sshmx machine"
-echo "###########################"
+# specific helper aliases for my use
+alias movewacom_hdmi='xsetwacom set "Wacom Bamboo 16FG 4x5 Pen stylus" MapToOutput HDMI-2; xsetwacom set "Wacom Bamboo 16FG 4x5 Pen eraser" MapToOutput HDMI-2; xsetwacom set "Wacom Bamboo 16FG 4x5 Finger touch" Rotate half; xsetwacom set "Wacom Bamboo 16FG 4x5 Pen eraser" Rotate half; xsetwacom set "Wacom Bamboo 16FG 4x5 Pen stylus" Rotate half'
+
+alias movewacom_vga='xsetwacom set "Wacom Bamboo 16FG 4x5 Pen stylus" MapToOutput DP-2; xsetwacom set "Wacom Bamboo 16FG 4x5 Pen eraser" MapToOutput DP-2; xsetwacom set "Wacom Bamboo 16FG 4x5 Finger touch" Rotate half; xsetwacom set "Wacom Bamboo 16FG 4x5 Pen eraser" Rotate half; xsetwacom set "Wacom Bamboo 16FG 4x5 Pen stylus" Rotate half'
 
 ```
+
+#### Setting up ~/.bashrc to display git branch in bash shell
+
+```bash
+vim ~/.bashrc
+```
+
+Paste the following function:
+````bash
+### adding git display
+parse_git_branch() { 
+        git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ [\1]/';
+}
+
+````
+
+Modify the following lines to output git branch in command prompt:
+````bash
+if [ "$color_prompt" = yes ]; then
+    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\e[91m\]\$(parse_git_branch)\[\033[00m\]\$ "
+else
+    PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\$(parse_git_branch)\$ "
+fi
+unset color_prompt force_color_prompt
+````
+
+#### Setting up custom paths in ~/.bashrc
+
+```bash
+vim ~/.bashrc
+```
+
+Add the following to include an additional import additional paths from bash_paths:
+````bash
+# my custom path setups
+if [ -f ~/.bash_paths ]; then
+    . ~/.bash_paths
+fi
+````
+
+```bash
+vim ~/.bash_paths
+```
+
+Add and export any custom paths in this file:
+````bash
+PATH=/usr/local/cuda-11.1/bin:${PATH}
+export PATH
+
+LD_LIBRARY_PATH=/usr/local/cuda-11.1/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH
+````
 
 #### Setting up ~/.vimrc
 
@@ -165,6 +193,7 @@ UUID=xxxxxxxxxxxxxxxxxxxxxx /data2          ext4    defaults        0       2
 
 UUID=xxxxxxxxxxxxxxxxxxxxxx none            swap    sw              0       0
 ````
+
 ### Install VSCODE and configure for python
 - Download latest debian package from: https://code.visualstudio.com/
 - Install using the dpkg as follows:
@@ -192,51 +221,13 @@ To make a default virtualenv accessing in all new projects, update the following
 - python extension: ms-python.python
 - remote development: ms-vscode-remote.vscode-remote-extensionpack
 - bracket pair coloriser: coenraads.bracket-pair-colorizer-2
+- git lens: eamodio.gitlens
 
 #### Nice to have VSCode extensions
 - material icons: pkief.material-icon-theme
 - reload: natqe.reload
 - resource monitor: mutantdino.resourcemonitor
 - nvidia-smi: innerlee.nvidia-smi
-
-### Thinkvantage button reprogram
-Specific to Thinkpad laptop
-
-Help from: https://askubuntu.com/a/561464
-
-Install:
-````bash
-sudo apt-get install xbindkeys 
-````
-
-Then run:
-````bash
-xbindkeys -k  
-````
-
-and press the thinkvantage (or any other button you wish to reprogram). The following should appear:
-
-````bash
-Press combination of keys or/and click under the window.
-You can use one of the two lines after "NoCommand"
-in $HOME/.xbindkeysrc to bind a key.
-"NoCommand"
-    m:0x0 + c:159
-    NoSymbol  
-````
-
-We will use the key id from this.
-
-Create ~/.xindkeysrc  
-````bash
-touch ~/.xindkeysrc  
-````
-
-Edit the file and add the following:
-````bash
-"bash /path/to/your/script.sh"
-m:0x0 + c:159 
-````
 
 ### Setting up terminal to not show pop-up 'close this terminal?'
 https://askubuntu.com/a/999781
@@ -250,6 +241,43 @@ Then go to
 org -> gnome -> terminal -> legacy
 ````
 and uncheck ````confirm-close````.
+
+
+### Setting up launcher shortcut for manually installed apps
+- Place you app folder inside /opt e.g. /opt/RealVNC/*
+- Create a .desktop file with application name e.g. RealVNC.desktop and add the following fields:
+  ````
+  [Desktop Entry]
+  Categories=Connectivity;Remote;Desktop;VPN;VNC;
+  Exec=/opt/RealVNC/VNC-Viewer-6.20.113-Linux-x64
+  GenericName=RealVNC
+  Comment=RealVNC Remote Desktop Viewer
+  Icon=/opt/RealVNC/icon.png
+  Keywords=connect;remote;desktop;vnc;vpn;
+  Name=RealVNC
+  StartupNotify=true
+  Terminal=false
+  Type=Application
+  ````
+- Place the .desktop file in folder ~/.local/share/applications/*
+
+### Port forwarding for applications/tensorboard from remote server to local
+On you local machine login to an ssh session using the following:
+
+````
+ssh -L localhost:16006:localhost:6006 user@host 
+````
+The above forwards port 6006 from host to port 16006 on your local machine. To access your tensorboard/application open: http://localhost:16006 on your local machine. Help from: https://stackoverflow.com/questions/37987839/how-can-i-run-tensorboard-on-a-remote-server/42445070#42445070
+
+
+### Setting up CUDA TOOLKIT
+- Goto: https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal  and download the local .run file for your OS (Ubuntu 16 in my case)
+- Add execute permission: ````chmod +x cuda_10.2.run````
+- Run with following options to install locally to your folder of choice (no drivers):
+````
+./cuda_10.2.89_440.33.01_linux.run --silent --toolkit --toolkitpath=/mnt/shared/muhammad/opt/nvidia/cuda-10.2 --defaultroot=/mnt/shared/muhammad/opt/nvidia/cuda-10.2
+````
+Help from: https://forums.developer.nvidia.com/t/failing-to-install-10-1-via-run-file-on-rhel7-as-non-root/72087/6
 
 ### Setting up shortcut keys for Spotify
 https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
@@ -299,42 +327,6 @@ Commands available:
 /home/your_username/Downloads/spotify_control play
 /home/your_username/Downloads/spotify_control stop
 ````
-### Setting up launcher shortcut for manually installed apps
-- Place you app folder inside /opt e.g. /opt/RealVNC/*
-- Create a .desktop file with application name e.g. RealVNC.desktop and add the following fields:
-  ````
-  [Desktop Entry]
-  Categories=Connectivity;Remote;Desktop;VPN;VNC;
-  Exec=/opt/RealVNC/VNC-Viewer-6.20.113-Linux-x64
-  GenericName=RealVNC
-  Comment=RealVNC Remote Desktop Viewer
-  Icon=/opt/RealVNC/icon.png
-  Keywords=connect;remote;desktop;vnc;vpn;
-  Name=RealVNC
-  StartupNotify=true
-  Terminal=false
-  Type=Application
-  ````
-- Place the .desktop file in folder ~/.local/share/applications/*
-
-### Port forwarding for applications/tensorboard from remote server to local
-On you local machine login to an ssh session using the following:
-
-````
-ssh -L localhost:16006:localhost:6006 user@host 
-````
-The above forwards port 6006 from host to port 16006 on your local machine. To access your tensorboard/application open: http://localhost:16006 on your local machine. Help from: https://stackoverflow.com/questions/37987839/how-can-i-run-tensorboard-on-a-remote-server/42445070#42445070
-
-
-### Setting up CUDA TOOLKIT
-- Goto: https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal  and download the local .run file for your OS (Ubuntu 16 in my case)
-- Add execute permission: ````chmod +x cuda_10.2.run````
-- Run with following options to install locally to your folder of choice (no drivers):
-````
-./cuda_10.2.89_440.33.01_linux.run --silent --toolkit --toolkitpath=/mnt/shared/muhammad/opt/nvidia/cuda-10.2 --defaultroot=/mnt/shared/muhammad/opt/nvidia/cuda-10.2
-````
-Help from: https://forums.developer.nvidia.com/t/failing-to-install-10-1-via-run-file-on-rhel7-as-non-root/72087/6
-
 
 # SettingUpWSL2Ubuntu
 
@@ -344,3 +336,42 @@ echo 'set bell-style none' >> /etc/inputrc
 ````
 ### WSL2 setup with Ubuntu GUI
 https://gist.github.com/tdcosta100/385636cbae39fc8cd0937139e87b1c74
+
+### Thinkvantage button reprogram
+Specific to Thinkpad laptop
+
+Help from: https://askubuntu.com/a/561464
+
+Install:
+````bash
+sudo apt-get install xbindkeys 
+````
+
+Then run:
+````bash
+xbindkeys -k  
+````
+
+and press the thinkvantage (or any other button you wish to reprogram). The following should appear:
+
+````bash
+Press combination of keys or/and click under the window.
+You can use one of the two lines after "NoCommand"
+in $HOME/.xbindkeysrc to bind a key.
+"NoCommand"
+    m:0x0 + c:159
+    NoSymbol  
+````
+
+We will use the key id from this.
+
+Create ~/.xindkeysrc  
+````bash
+touch ~/.xindkeysrc  
+````
+
+Edit the file and add the following:
+````bash
+"bash /path/to/your/script.sh"
+m:0x0 + c:159 
+````
