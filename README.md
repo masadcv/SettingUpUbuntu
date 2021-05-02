@@ -67,15 +67,20 @@ copy the following text
 
 ```bash
 # ~/.bash_aliases
-echo '---------------------------------'
-echo 'Helpful aliases:'
-echo 'venv : default python3 virtualenv'
-echo 'dvenv: default develop python3 virtualenv'
-echo 'de   : deactivate venv'
-echo 'ptv  : check PyTorch version + GPU support'
-echo 'tfv  : check Tensorflow version + GPU support'
-echo 'monv : check MONAI version'
-echo '---------------------------------'
+RED='\033[1;31m' # RED Color
+CYAN='\033[1;36m' # CYAN Color
+
+NC='\033[0m' # No Color
+
+echo -e "${RED}--------------------------------------"
+echo -e "${CYAN}Helpful aliases:"
+echo "venv : default python3 virtualenv"
+echo "dvenv: develop python3 virtualenv"
+echo "de   : deactivate venv"
+echo "ptv  : check PT version + GPU support"
+echo "tfv  : check TF version + GPU support"
+echo "monv : check MONAI version"
+echo -e "${RED}--------------------------------------${NC}"
 echo 
 
 # generic helper aliases for deep learning and pythons stuff
