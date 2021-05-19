@@ -333,15 +333,6 @@ Commands available:
 /home/your_username/Downloads/spotify_control stop
 ````
 
-# SettingUpWSL2Ubuntu
-
-### Stop bell sound in terminal
-````
-echo 'set bell-style none' >> /etc/inputrc
-````
-### WSL2 setup with Ubuntu GUI
-https://gist.github.com/tdcosta100/385636cbae39fc8cd0937139e87b1c74
-
 ### Thinkvantage button reprogram
 Specific to Thinkpad laptop
 
@@ -380,3 +371,11 @@ Edit the file and add the following:
 "bash /path/to/your/script.sh"
 m:0x0 + c:159 
 ````
+# SettingUpWSL2Ubuntu (Windows)
+
+### Stop bell sound in terminal
+````
+echo 'set bell-style none' >> /etc/inputrc
+````
+### WSL2 setup with Ubuntu GUI
+https://gist.github.com/tdcosta100/385636cbae39fc8cd0937139e87b1c74
