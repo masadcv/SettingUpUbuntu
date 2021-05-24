@@ -284,6 +284,32 @@ The above forwards port 6006 from host to port 16006 on your local machine. To a
 ````
 Help from: https://forums.developer.nvidia.com/t/failing-to-install-10-1-via-run-file-on-rhel7-as-non-root/72087/6
 
+## Setting up GCC 8 for CUDA 10.2
+From: https://github.com/espressomd/espresso/issues/3654#issuecomment-723140670
+
+Anyone reading this may be interested in a simple version that worked:
+- install gcc-8
+ 
+ `sudo apt -y install gcc-8`
+ 
+- add gcc (version) alternatives
+
+ `sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8`
+ 
+- (may be optional, only do if 3. complains) I had to create this for the next command to work (gcc-9 was installed by build-essentials on Ubuntu 20.04)
+ 
+ `sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9`
+ 
+- select gcc-8 as compiler (version) -- press the number that points to gcc-8
+ 
+ `sudo update-alternatives --config gcc`
+ 
+- now cuda versions that require old gcc-versions work
+ 
+ `sudo sh cuda_10.2.89_440.33.01_linux.run`
+ 
+- (optional) -- select gcc-9 as compiler (version) -- press the number that points to gcc-8
+
 ### Setting up shortcut keys for Spotify
 https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
 ````
