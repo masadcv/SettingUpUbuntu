@@ -310,6 +310,14 @@ Anyone reading this may be interested in a simple version that worked:
  
 - (optional) -- select gcc-9 as compiler (version) -- press the number that points to gcc-8
 
+## Setting default Kernel Ubuntu
+In some cases, especially with Nvidia drivers, it helps to stick to a specific kernel of Ubuntu.
+This can be achieved by installing grub-customiser as:
+
+`sudo apt install grub-customizer`
+
+And then selecting the default entry under General settings to your known working kernel.
+
 ### Setting up shortcut keys for Spotify
 https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
 ````
