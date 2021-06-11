@@ -263,8 +263,37 @@ and uncheck ````confirm-close````.
   StartupNotify=true
   Terminal=false
   Type=Application
-  ````
+  ````  
 - Place the .desktop file in folder ~/.local/share/applications/*
+- Alternate location for system wide access to all users: /usr/share/applications/
+- Some useful launchers:
+  ```
+  [Desktop Entry]
+  Categories=medical;imaging;visualizer;slicer;
+  Exec=/opt/Slicer-4.11.20210226-linux-amd64/Slicer
+  GenericName=Slicer
+  Comment=3D Slicer Visualizer
+  Icon=/opt/Slicer-4.11.20210226-linux-amd64/icon.png
+  Keywords=slicer;visualizer;medical;
+  Name=Slicer
+  StartupNotify=true
+  Terminal=false
+  Type=Application
+  ```
+  ```
+  [Desktop Entry]
+  Categories=medical;imaging;visualizer;slicer;
+  Exec=/opt/itksnap-3.6.0-20170401-Linux-x86_64/bin/itksnap
+  GenericName=ITKSnap
+  Comment=ITKSnap 3D Visualizer
+  Icon=/opt/itksnap-3.6.0-20170401-Linux-x86_64/bin/icon.png
+  Keywords=itksnap;visualizer;medical;
+  Name=ITKSnap
+  StartupNotify=true
+  Terminal=false
+  Type=Application
+  ```
+  
 
 ### Port forwarding for applications/tensorboard from remote server to local
 On you local machine login to an ssh session using the following:
