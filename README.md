@@ -359,6 +359,44 @@ https://askubuntu.com/a/938523
 - Mark hold kernel package:  
  `sudo apt-mark hold 4.10.0-27-generic`
 
+### Fix for GDM3 blinking cursor on startup with Nvidia drivers on Ubuntu 20.04
+https://askubuntu.com/a/1319463
+Solution
+
+The following seems to have fixed the issue for me, and the GDM screen now appears without having to resort to the above "trick".
+
+Edit the file /lib/udev/rules.d/61-gdm.rules.
+
+`sudo nano /lib/udev/rules.d/61-gdm.rules`
+
+The original file looks like this:
+
+`# disable Wayland on Hi1710 chipsets
+ATTR{vendor}=="0x19e5", ATTR{device}=="0x1711", RUN+="/usr/lib/gdm3/gdm-disable-wayland"
+# disable Wayland when using the proprietary nvidia driver
+DRIVER=="nvidia", RUN+="/usr/lib/gdm3/gdm-disable-wayland"`
+
+Comment all of the lines as shown:
+
+`# disable Wayland on Hi1710 chipsets
+# ATTR{vendor}=="0x19e5", ATTR{device}=="0x1711", RUN+="/usr/lib/gdm3/gdm-disable-wayland"
+# disable Wayland when using the proprietary nvidia driver
+# DRIVER=="nvidia", RUN+="/usr/lib/gdm3/gdm-disable-wayland"`
+
+Type Ctrl+X to exit, then Y, and then Enter to save the file.
+
+Ensure that the Wayland is not disabled in GDM.
+
+`sudo nano /etc/gdm3/custom.conf`
+
+Comment the "WaylandEnable" line, if it is not already commented, as shown:
+`
+# WaylandEnable=false
+`
+Type Ctrl+X to exit. If you made changes, type Y, and then Enter to save the file.
+
+Finally, reboot.
+
 
 ### Setting up shortcut keys for Spotify
 https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
