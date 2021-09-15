@@ -446,7 +446,17 @@ Commands available:
 /home/your_username/Downloads/spotify_control play
 /home/your_username/Downloads/spotify_control stop
 ````
-
+### NVIDIA Powermizer with least performance option
+````
+# query
+$ nvidia-settings -q [gpu:0]/GPUPowerMizerMode
+  Attribute 'GPUPowerMizerMode' (PCName:1[gpu:0]): 2.
+    Valid values for 'GPUPowerMizerMode' are: 0, 1, 2 and 3.
+    'GPUPowerMizerMode' can use the following target types: GPU.
+# apply, 0 is least power 3 is most power/heatup
+$ nvidia-settings -a [gpu:0]/GPUPowerMizerMode=0
+  Attribute 'GPUPowerMizerMode' (Centaurus:1[gpu:0]) assigned value 0.
+````
 ### Thinkvantage button reprogram
 Specific to Thinkpad laptop
 
