@@ -234,6 +234,11 @@ To make a default virtualenv accessing in all new projects, update the following
 - resource monitor: mutantdino.resourcemonitor
 - nvidia-smi: innerlee.nvidia-smi
 
+#### Copying keybindings for default VSCode shortcuts
+- Use one of the default keybinding files saved within this folder
+- Follow steps `Ctrl+K Ctrl+S` to access keybindings json [further help here](https://stackoverflow.com/a/60091222)
+- Copy keybindings from provided json to the one on your VSCode system
+
 ### Setting up terminal to not show pop-up 'close this terminal?'
 https://askubuntu.com/a/999781
 
@@ -371,17 +376,21 @@ Edit the file /lib/udev/rules.d/61-gdm.rules.
 
 The original file looks like this:
 
-`# disable Wayland on Hi1710 chipsets
+```
+# disable Wayland on Hi1710 chipsets
 ATTR{vendor}=="0x19e5", ATTR{device}=="0x1711", RUN+="/usr/lib/gdm3/gdm-disable-wayland"
 # disable Wayland when using the proprietary nvidia driver
-DRIVER=="nvidia", RUN+="/usr/lib/gdm3/gdm-disable-wayland"`
+DRIVER=="nvidia", RUN+="/usr/lib/gdm3/gdm-disable-wayland"
+```
 
 Comment all of the lines as shown:
 
-`# disable Wayland on Hi1710 chipsets
+```
+# disable Wayland on Hi1710 chipsets
 # ATTR{vendor}=="0x19e5", ATTR{device}=="0x1711", RUN+="/usr/lib/gdm3/gdm-disable-wayland"
 # disable Wayland when using the proprietary nvidia driver
-# DRIVER=="nvidia", RUN+="/usr/lib/gdm3/gdm-disable-wayland"`
+# DRIVER=="nvidia", RUN+="/usr/lib/gdm3/gdm-disable-wayland"
+```
 
 Type Ctrl+X to exit, then Y, and then Enter to save the file.
 
@@ -390,9 +399,9 @@ Ensure that the Wayland is not disabled in GDM.
 `sudo nano /etc/gdm3/custom.conf`
 
 Comment the "WaylandEnable" line, if it is not already commented, as shown:
-`
+```
 # WaylandEnable=false
-`
+```
 Type Ctrl+X to exit. If you made changes, type Y, and then Enter to save the file.
 
 Finally, reboot.
