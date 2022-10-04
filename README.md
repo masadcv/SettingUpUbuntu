@@ -406,6 +406,25 @@ Type Ctrl+X to exit. If you made changes, type Y, and then Enter to save the fil
 
 Finally, reboot.
 
+### Disable lid switch for laptops with problematic lid switch
+Help from: https://askubuntu.com/questions/1358045/how-do-you-disable-the-laptop-lid-switch-in-ubuntu-20-04
+
+Put this into the terminal:
+```
+sudo -H gedit /etc/systemd/logind.conf
+```
+Find the line that says:
+```
+#HandleLidSwitchDocked=ignore
+```
+Remove the # at the beginning (i.e. uncomment it), and save the file.
+
+Then type:
+```
+sudo systemctl restart systemd-logind
+```
+
+Reboot
 
 ### Setting up shortcut keys for Spotify
 https://askubuntu.com/questions/1105363/spotify-keyboard-controls-not-working
